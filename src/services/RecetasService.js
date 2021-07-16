@@ -1,6 +1,12 @@
 import HttpService from "./HttpService";
+import Constantes from "../Constantes";
 
 const RecetasService = {
+	ubicacionFoto(nombre) {
+		// Por defecto se sirven con Apache
+		const NOMBRE_DIRECTORIO_FOTOS = "fotos_recetas";
+		return Constantes.URL_SERVIDOR + "/" + NOMBRE_DIRECTORIO_FOTOS + "/" + nombre;
+	},
 	async obtenerRecetas() {
 		return await HttpService.get("/obtener_recetas.php");
 	},

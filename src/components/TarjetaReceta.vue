@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-image">
-      <img src="https://picsum.photos/2000" :alt="'Foto de ' + receta.nombre" />
+      <img :src="urlFoto()" :alt="'Foto de ' + receta.nombre" />
     </div>
     <div class="card-content">
       <div class="media">
@@ -19,7 +19,13 @@
   </div>
 </template>
 <script>
+import RecetasService from "../services/RecetasService";
 export default {
   props: ["receta"],
+  methods: {
+    urlFoto() {
+      return RecetasService.ubicacionFoto(this.receta.foto);
+    },
+  },
 };
 </script>

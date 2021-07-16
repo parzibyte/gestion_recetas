@@ -2,7 +2,7 @@
   <div>
     <div class="columns is-multiline is-desktop">
       <div
-        class="column is-one-quarter-desktop"
+        class="column is-one-third-desktop"
         v-for="(receta, i) in recetas"
         :key="i"
       >

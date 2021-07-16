@@ -17,7 +17,7 @@ class Recetas
 	public static function obtener()
 	{
 		$bd = BD::obtener();
-		$sentencia = $bd->query("SELECT id, nombre, descripcion, porciones FROM recetas");
+		$sentencia = $bd->query("SELECT recetas.id, recetas.nombre, recetas.descripcion, recetas.porciones, fotos_recetas.foto FROM recetas INNER JOIN fotos_recetas ON recetas.id = fotos_recetas.id_receta");
 		return $sentencia->fetchAll();
 	}
 
