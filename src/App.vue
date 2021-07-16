@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar style="border: 2px solid #ffe08a">
+    <b-navbar class="oculto-impresion" style="border: 2px solid #ffe08a">
       <template #brand>
         <b-navbar-item tag="a" target="_blank" :href="logo">
           <img :src="logo" style="min-height: 85px" />
@@ -29,10 +29,10 @@
         </b-navbar-item>
       </template>
     </b-navbar>
-    <section class="section">
+    <section class="section sin-espacios-al-imprimir">
       <router-view></router-view>
     </section>
-    <footer class="footer">
+    <footer class="footer oculto-impresion">
       <div class="content has-text-centered">
         <p>
           <strong>Gestión de recetas - Software de recetario </strong>creado y
@@ -54,3 +54,15 @@ export default {
   methods: {},
 };
 </script>
+<style >
+@media print {
+  .oculto-impresion,
+  .oculto-impresion * {
+    display: none !important;
+  }
+  .section.sin-espacios-al-imprimir {
+    margin: 5px !important;
+    padding: 7px !important;
+  }
+}
+</style>

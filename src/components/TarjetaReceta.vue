@@ -14,7 +14,7 @@
       </div>
     </div>
     <footer class="card-footer">
-      <a href="#" class="card-footer-item">Leer más...</a>
+      <a @click="verDetalle()" class="card-footer-item">Ver&nbsp; <b-icon icon="book-open-outline"></b-icon></a>
     </footer>
   </div>
 </template>
@@ -23,5 +23,15 @@ import FotoDeReceta from "./FotoDeReceta.vue";
 export default {
   props: ["receta"],
   components: { FotoDeReceta },
+  methods: {
+    verDetalle() {
+      this.$router.push({
+        name: "DetalleReceta",
+        params: {
+          id: this.receta.id,
+        },
+      });
+    },
+  },
 };
 </script>
