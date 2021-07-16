@@ -7,10 +7,16 @@ use Parzibyte\BD;
 
 class Recetas
 {
+	public static function eliminar($id)
+	{
+		$bd = BD::obtener();
+		$sentencia = $bd->prepare("DELETE FROM recetas WHERE id = ?");
+		return $sentencia->execute([$id]);
+	}
 	public static function obtener()
 	{
 		$bd = BD::obtener();
-		$sentencia = $bd->query("SELECT nombre, descripcion, porciones FROM recetas");
+		$sentencia = $bd->query("SELECT id, nombre, descripcion, porciones FROM recetas");
 		return $sentencia->fetchAll();
 	}
 

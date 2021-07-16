@@ -1,35 +1,50 @@
 <template>
   <div>
-    <div class="columns is-multiline is-desktop">
-      <div
-        class="column is-one-quarter-desktop"
-        v-for="(receta, i) in recetas"
-        :key="i"
-      >
-        <div class="card">
-          <div class="card-image">
-            <img src="https://picsum.photos/800" alt="Placeholder image" />
-          </div>
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p class="title is-4">{{ receta.nombre }}</p>
-              </div>
-            </div>
-            <div class="content">
-              {{ receta.descripcion }}
-            </div>
-          </div>
-          <footer class="card-footer">
-            <a href="#" class="card-footer-item">Leer más...</a>
-          </footer>
-        </div>
+    <div class="columns">
+      <div class="column">
+        <b-table :data="recetas">
+          <b-table-column
+            field="nombre"
+            label="Nombre"
+            searchable
+            v-slot="props"
+          >
+            {{ props.row.nombre }}
+          </b-table-column>
+          <b-table-column
+            field="descripcion"
+            label="Descripción"
+            searchable
+            sortable
+            v-slot="props"
+          >
+            {{ props.row.descripcion }}
+          </b-table-column>
+          <b-table-column
+            field="porciones"
+            label="Porciones"
+            numeric
+            sortable
+            searchable
+            v-slot="props"
+          >
+            {{ props.row.porciones }}
+          </b-table-column>
+          <b-table-column field="id" label="Opciones" v-slot="props">
+            <b-button @click="editarReceta(props.row)" type="is-warning">
+              <b-icon icon="pencil"></b-icon>
+            </b-button>
+            <b-button @click="eliminarReceta(props.row)" type="is-danger">
+              <b-icon icon="delete"></b-icon>
+            </b-button>
+          </b-table-column>
+        </b-table>
       </div>
     </div>
   </div>
 </template>
 <script>
-import HttpService from "../services/HttpService";
+import RecetasService from "../services/RecetasService";
 export default {
   data: () => ({
     recetas: [],
@@ -41,8 +56,17 @@ export default {
   methods: {
     async obtenerRecetas() {
       this.cargando = true;
-      this.recetas = await HttpService.get("/obtener_recetas.php");
+      this.recetas = await RecetasService.obtenerRecetas();
       this.cargando = false;
+    },
+    editarReceta(receta) {
+      console.log({ receta });
+    },
+    async eliminarReceta(receta) {
+      if (!confirm("Seguro?")) return;
+      await RecetasService.eliminarReceta(receta.id);
+      await this.obtenerRecetas();
+      this.$buefy.toast.open("Receta eliminada");
     },
   },
 };
