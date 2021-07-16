@@ -2,6 +2,9 @@ import HttpService from "./HttpService";
 import Constantes from "../Constantes";
 
 const RecetasService = {
+	async buscarRecetas(busqueda) {
+		return await HttpService.get("/buscar_recetas.php?busqueda=" + encodeURIComponent(busqueda));
+	},
 	async actualizarReceta(receta, foto) {
 		const formdata = new FormData();
 		if (foto) {

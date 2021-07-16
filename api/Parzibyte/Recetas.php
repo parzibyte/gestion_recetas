@@ -7,6 +7,16 @@ use Parzibyte\BD;
 
 class Recetas
 {
+	public static function buscar($busqueda)
+	{
+		$bd = BD::obtener();
+		$sentencia = $bd->prepare("SELECT recetas.id, recetas.nombre, recetas.descripcion, recetas.porciones, fotos_recetas.foto
+		FROM recetas INNER JOIN fotos_recetas
+		ON recetas.id = fotos_recetas.id_receta 
+		WHERE recetas.nombre LIKE ? OR recetas.descripcion LIKE ?");
+		$sentencia->execute(["%$busqueda%", "%$busqueda%"]);
+		return $sentencia->fetchAll();
+	}
 	public static function actualizar($nombre, $descripcion, $porciones, $ingredientes, $pasos, $foto, $idReceta)
 	{
 		$bd = BD::obtener();
