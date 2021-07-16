@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="columns">
-      <div class="column">
+    <div class="columns is-desktop is-multiline">
+      <div class="column is-two-thirds">
         <b-field grouped>
           <b-field label="Nombre">
             <b-input
@@ -15,11 +15,33 @@
         </b-field>
         <b-field label="Descripción">
           <b-input
+            expanded
             maxlength="2048"
             type="textarea"
             placeholder="Describe la receta"
             v-model="receta.descripcion"
           ></b-input>
+        </b-field>
+      </div>
+      <div class="column is-one-third">
+        <b-field grouped>
+          <b-field label="Foto" message="Se recomienda una de al menos 2000 px">
+            <b-upload v-model="foto" drag-drop accept="image/png,image/jpeg">
+              <section class="section">
+                <div class="content has-text-centered">
+                  <p>
+                    <b-icon icon="upload" size="is-large"> </b-icon>
+                  </p>
+                  <p v-if="foto">
+                    {{ foto.name }}
+                  </p>
+                  <p v-else>
+                    Elige la foto o arrastra y suelta aquí {{ foto }}
+                  </p>
+                </div>
+              </section>
+            </b-upload>
+          </b-field>
         </b-field>
       </div>
       <div class="column has-text-centered">
@@ -89,7 +111,7 @@
           </tbody>
         </table>
       </div>
-      <div class="column">
+      <div class="column is-half">
         <h2 class="is-size-4 has-text-centered">Pasos</h2>
         <b-field
           :label="'#' + (indicePaso + 1)"
@@ -125,7 +147,8 @@
           @click="guardarReceta()"
           :disabled="
             !deberiaHabilitarBotonAgregarIngrediente() ||
-            !deberiaHabilitarBotonAgregarPaso()
+            !deberiaHabilitarBotonAgregarPaso() ||
+            !foto
           "
           type="is-success"
           :loading="cargando"
@@ -136,8 +159,8 @@
   </div>
 </template>
 <script>
-import HttpService from "../services/HttpService";
 import Constantes from "../Constantes";
+import RecetasService from "../services/RecetasService";
 export default {
   data: () => ({
     unidadesMedida: Constantes.UNIDADES_MEDIDA,
@@ -149,6 +172,7 @@ export default {
       ingredientes: [],
       pasos: [],
     },
+    foto: null,
   }),
   methods: {
     limpiarFormulario() {
@@ -159,6 +183,9 @@ export default {
         ingredientes: [],
         pasos: [],
       };
+      this.agregarPaso();
+      this.agregarIngrediente();
+      this.foto = null;
     },
     eliminarPaso(indice) {
       this.receta.pasos.splice(indice, 1);
@@ -227,9 +254,9 @@ export default {
     },
     async guardarReceta() {
       this.cargando = true;
-      const respuesta = await HttpService.post(
-        "/agregar_receta.php",
-        this.receta
+      const respuesta = await RecetasService.agregarReceta(
+        this.receta,
+        this.foto
       );
       if (respuesta) {
         this.$buefy.toast.open("Receta guardada");
@@ -241,8 +268,7 @@ export default {
     },
   },
   async mounted() {
-    this.agregarIngrediente();
-    this.agregarPaso();
+    this.limpiarFormulario();
   },
 };
 </script>

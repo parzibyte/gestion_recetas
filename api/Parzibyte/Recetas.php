@@ -9,6 +9,7 @@ class Recetas
 {
 	public static function eliminar($id)
 	{
+		FotosRecetas::eliminarFotos($id);
 		$bd = BD::obtener();
 		$sentencia = $bd->prepare("DELETE FROM recetas WHERE id = ?");
 		return $sentencia->execute([$id]);
@@ -20,7 +21,7 @@ class Recetas
 		return $sentencia->fetchAll();
 	}
 
-	public static function agregar($nombre, $descripcion, $porciones, $ingredientes, $pasos)
+	public static function agregar($nombre, $descripcion, $porciones, $ingredientes, $pasos, $foto)
 	{
 		$bd = BD::obtener();
 		$sentencia = $bd->prepare("INSERT INTO recetas(nombre, porciones, descripcion) VALUES (?, ?, ?)");
@@ -28,6 +29,7 @@ class Recetas
 		$idReceta = $bd->lastInsertId();
 		self::guardarPasos($pasos, $idReceta);
 		self::guardarIngredientes($ingredientes, $idReceta);
+		FotosRecetas::guardarFoto($foto, $idReceta);
 		return true;
 	}
 	private static function eliminarPasosDeReceta($idReceta)
