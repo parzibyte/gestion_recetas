@@ -6,6 +6,7 @@
           <b-table-column
             field="nombre"
             label="Nombre"
+            sortable
             searchable
             v-slot="props"
           >
@@ -31,12 +32,18 @@
             {{ props.row.porciones }}
           </b-table-column>
           <b-table-column field="id" label="Opciones" v-slot="props">
-            <b-button @click="editarReceta(props.row)" type="is-warning">
-              <b-icon icon="pencil"></b-icon>
-            </b-button>
-            <b-button @click="eliminarReceta(props.row)" type="is-danger">
-              <b-icon icon="delete"></b-icon>
-            </b-button>
+            <b-field grouped>
+              <p class="control">
+                <b-button @click="editarReceta(props.row)" type="is-warning">
+                  <b-icon icon="pencil"></b-icon>
+                </b-button>
+              </p>
+              <p class="control">
+                <b-button @click="eliminarReceta(props.row)" type="is-danger">
+                  <b-icon icon="delete"></b-icon>
+                </b-button>
+              </p>
+            </b-field>
           </b-table-column>
         </b-table>
       </div>
@@ -60,7 +67,12 @@ export default {
       this.cargando = false;
     },
     editarReceta(receta) {
-      console.log({ receta });
+      this.$router.push({
+        name: "EditarReceta",
+        params: {
+          id: receta.id,
+        },
+      });
     },
     async eliminarReceta(receta) {
       if (!confirm("Seguro?")) return;

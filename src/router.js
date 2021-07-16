@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import NuevaReceta from '@/components/NuevaReceta'
 import Recetas from '@/components/Recetas'
 import Recetario from '@/components/Recetario'
+import EditarReceta from '@/components/EditarReceta'
 
 Vue.use(Router);
 
@@ -22,5 +23,10 @@ export default new Router({
         name: 'Recetario',
         component: Recetario,
     },
+{
+            path: '/receta/editar/:id',
+            name: 'EditarReceta',
+            component: EditarReceta,
+        },
     ]
 });
