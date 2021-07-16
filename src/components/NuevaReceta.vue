@@ -4,7 +4,10 @@
       <div class="column">
         <b-field grouped>
           <b-field label="Nombre">
-            <b-input v-model="receta.nombre"></b-input>
+            <b-input
+              placeholder="Nombre de la receta"
+              v-model="receta.nombre"
+            ></b-input>
           </b-field>
           <b-field label="Porciones">
             <b-numberinput v-model="receta.porciones"></b-numberinput>
@@ -14,6 +17,7 @@
           <b-input
             maxlength="2048"
             type="textarea"
+            placeholder="Describe la receta"
             v-model="receta.descripcion"
           ></b-input>
         </b-field>
@@ -25,7 +29,7 @@
             <tr>
               <td>Cantidad</td>
               <td>Unidad medida</td>
-              <td>Nombre</td>
+              <td>Ingrediente</td>
               <td></td>
               <td></td>
             </tr>
@@ -55,7 +59,10 @@
               </td>
               <td>
                 <b-field>
-                  <b-input v-model="ingrediente.nombre"></b-input>
+                  <b-input
+                    placeholder="Nombre de ingrediente"
+                    v-model="ingrediente.nombre"
+                  ></b-input>
                 </b-field>
               </td>
               <td>
@@ -63,8 +70,9 @@
                   v-show="puedeMostrarBotonEliminarIngrediente()"
                   @click="eliminarIngrediente(indice_ingrediente)"
                   type="is-danger"
-                  >D</b-button
                 >
+                  <b-icon icon="delete"></b-icon>
+                </b-button>
               </td>
               <td>
                 <b-button
@@ -74,8 +82,8 @@
                   "
                   @click="agregarIngrediente()"
                   type="is-info"
-                  >+</b-button
-                >
+                  ><b-icon icon="plus"></b-icon
+                ></b-button>
               </td>
             </tr>
           </tbody>
@@ -94,8 +102,9 @@
               @click="eliminarPaso(indicePaso)"
               v-show="puedeMostrarBotonEliminarPaso()"
               type="is-danger"
-              >D</b-button
             >
+              <b-icon icon="delete"></b-icon>
+            </b-button>
           </p>
           <p class="control">
             <b-button
@@ -103,8 +112,9 @@
               :disabled="!deberiaHabilitarBotonAgregarPaso()"
               v-show="puedeMostrarBotonAgregarPaso(indicePaso)"
               type="is-info"
-              >+</b-button
             >
+              <b-icon icon="plus"></b-icon>
+            </b-button>
           </p>
         </b-field>
       </div>
@@ -136,6 +146,15 @@ export default {
     },
   }),
   methods: {
+    limpiarFormulario() {
+      this.receta = {
+        nombre: "",
+        descripcion: "",
+        porciones: 1,
+        ingredientes: [],
+        pasos: [],
+      };
+    },
     eliminarPaso(indice) {
       this.receta.pasos.splice(indice, 1);
     },
@@ -206,6 +225,7 @@ export default {
         "/agregar_receta.php",
         this.receta
       );
+      this.limpiarFormulario();
       console.log({ respuesta });
     },
   },
