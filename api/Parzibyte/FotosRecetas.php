@@ -27,7 +27,10 @@ class FotosRecetas
 	{
 		$fotos = self::obtenerFotos($idReceta);
 		foreach ($fotos as $foto) {
-			unlink(self::obtenerRutaAbsolutaFoto($foto->foto));
+			$rutaAbsoluta = self::obtenerRutaAbsolutaFoto($foto->foto);
+			if (file_exists($rutaAbsoluta)) {
+				unlink($rutaAbsoluta);
+			}
 		}
 	}
 
