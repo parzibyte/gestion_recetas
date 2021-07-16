@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div class="columns">
+      <div class="column has-text-centered">
+        <h4 class="is-size-4">Nueva receta</h4>
+      </div>
+    </div>
     <div class="columns is-desktop is-multiline">
       <div class="column is-two-thirds">
         <b-field grouped>
@@ -35,9 +40,7 @@
                   <p v-if="foto">
                     {{ foto.name }}
                   </p>
-                  <p v-else>
-                    Elige la foto o arrastra y suelta aquí {{ foto }}
-                  </p>
+                  <p v-else>Elige la foto o arrastra y suelta aquí</p>
                 </div>
               </section>
             </b-upload>

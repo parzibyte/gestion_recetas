@@ -2,6 +2,17 @@ import HttpService from "./HttpService";
 import Constantes from "../Constantes";
 
 const RecetasService = {
+	async actualizarReceta(receta, foto) {
+		const formdata = new FormData();
+		if (foto) {
+			formdata.append("foto", foto);
+		}
+		formdata.append("receta", JSON.stringify(receta));
+		return await HttpService.formdata("/actualizar_receta.php", formdata);
+	},
+	async obtenerRecetaPorId(id) {
+		return await HttpService.get("/obtener_receta.php?id=" + id);
+	},
 	ubicacionFoto(nombre) {
 		// Por defecto se sirven con Apache
 		const NOMBRE_DIRECTORIO_FOTOS = "fotos_recetas";

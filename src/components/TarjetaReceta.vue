@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-image">
-      <img :src="urlFoto()" :alt="'Foto de ' + receta.nombre" />
+      <foto-de-receta :receta="receta"></foto-de-receta>
     </div>
     <div class="card-content">
       <div class="media">
@@ -19,13 +19,9 @@
   </div>
 </template>
 <script>
-import RecetasService from "../services/RecetasService";
+import FotoDeReceta from "./FotoDeReceta.vue";
 export default {
   props: ["receta"],
-  methods: {
-    urlFoto() {
-      return RecetasService.ubicacionFoto(this.receta.foto);
-    },
-  },
+  components: { FotoDeReceta },
 };
 </script>
