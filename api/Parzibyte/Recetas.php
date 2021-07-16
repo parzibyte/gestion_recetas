@@ -15,6 +15,7 @@ class Recetas
 		$idReceta = $bd->lastInsertId();
 		self::guardarPasos($pasos, $idReceta);
 		self::guardarIngredientes($ingredientes, $idReceta);
+		return true;
 	}
 	private static function eliminarPasosDeReceta($idReceta)
 	{

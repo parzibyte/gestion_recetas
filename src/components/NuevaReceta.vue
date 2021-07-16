@@ -123,8 +123,12 @@
       <div class="column">
         <b-button
           @click="guardarReceta()"
-          :disabled="!deberiaHabilitarBotonAgregarIngrediente()"
+          :disabled="
+            !deberiaHabilitarBotonAgregarIngrediente() ||
+            !deberiaHabilitarBotonAgregarPaso()
+          "
           type="is-success"
+          :loading="cargando"
           >Guardar</b-button
         >
       </div>
@@ -137,6 +141,7 @@ import Constantes from "../Constantes";
 export default {
   data: () => ({
     unidadesMedida: Constantes.UNIDADES_MEDIDA,
+    cargando: false,
     receta: {
       nombre: "",
       descripcion: "",
@@ -221,12 +226,18 @@ export default {
       }
     },
     async guardarReceta() {
+      this.cargando = true;
       const respuesta = await HttpService.post(
         "/agregar_receta.php",
         this.receta
       );
-      this.limpiarFormulario();
-      console.log({ respuesta });
+      if (respuesta) {
+        this.$buefy.toast.open("Receta guardada");
+        this.limpiarFormulario();
+      } else {
+        this.$buefy.toast.open("Error guardando receta");
+      }
+      this.cargando = false;
     },
   },
   async mounted() {
