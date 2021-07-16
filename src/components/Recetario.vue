@@ -51,6 +51,7 @@ export default {
   },
   methods: {
     async cancelarBusqueda() {
+      if (!this.busqueda) return;
       this.busqueda = "";
       await this.obtenerRecetas();
     },
