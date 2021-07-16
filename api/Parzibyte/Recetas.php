@@ -7,6 +7,13 @@ use Parzibyte\BD;
 
 class Recetas
 {
+	public static function obtener()
+	{
+		$bd = BD::obtener();
+		$sentencia = $bd->query("SELECT nombre, descripcion, porciones FROM recetas");
+		return $sentencia->fetchAll();
+	}
+
 	public static function agregar($nombre, $descripcion, $porciones, $ingredientes, $pasos)
 	{
 		$bd = BD::obtener();
