@@ -115,7 +115,7 @@
         </table>
       </div>
       <div class="column is-half">
-        <h2 class="is-size-4 has-text-centered">Pasos</h2>
+        <h2 class="is-size-4">Pasos</h2>
         <b-field
           :label="'#' + (indicePaso + 1)"
           v-for="(paso, indicePaso) in receta.pasos"

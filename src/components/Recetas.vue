@@ -2,6 +2,9 @@
   <div>
     <div class="columns">
       <div class="column">
+        <b-button type="is-primary" @click="agregarReceta()">
+          <b-icon icon="plus"></b-icon>&nbsp;Agregar
+        </b-button>
         <b-table :data="recetas">
           <b-table-column
             field="nombre"
@@ -79,6 +82,11 @@ export default {
       await RecetasService.eliminarReceta(receta.id);
       await this.obtenerRecetas();
       this.$buefy.toast.open("Receta eliminada");
+    },
+    agregarReceta() {
+      this.$router.push({
+        name: "NuevaReceta",
+      });
     },
   },
 };
