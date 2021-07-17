@@ -78,10 +78,19 @@ export default {
       });
     },
     async eliminarReceta(receta) {
-      if (!confirm("Seguro?")) return;
-      await RecetasService.eliminarReceta(receta.id);
-      await this.obtenerRecetas();
-      this.$buefy.toast.open("Receta eliminada");
+      this.$buefy.dialog.confirm({
+        title: "Eliminando receta",
+        message: "¿Eliminar? esta opción no se puede deshacer",
+        confirmText: "Sí, eliminar",
+        cancelText: "No",
+        type: "is-danger",
+        hasIcon: true,
+        onConfirm: async () => {
+          await RecetasService.eliminarReceta(receta.id);
+          await this.obtenerRecetas();
+          this.$buefy.toast.open("Receta eliminada");
+        },
+      });
     },
     agregarReceta() {
       this.$router.push({
