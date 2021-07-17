@@ -17,6 +17,9 @@
           ><b-icon icon="book-open-page-variant"></b-icon>&nbsp;Gestionar
           recetas</b-navbar-item
         >
+        <b-navbar-item tag="router-link" :to="{ name: 'AcercaDe' }"
+          ><b-icon icon="information"></b-icon>&nbsp;Acerca de</b-navbar-item
+        >
       </template>
       <template #end>
         <b-navbar-item tag="div">
